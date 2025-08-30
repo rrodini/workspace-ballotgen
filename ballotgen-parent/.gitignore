@@ -36,5 +36,8 @@ buildNumber.properties
 /bin/
 /tmp/
 
+# EclipseStore folders
+storage/
+
 # Apple files
 .DS_Store

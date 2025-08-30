@@ -1,0 +1,14 @@
+Zones
+#zone no, zone name,zone logo path
+3,OXGrove,./src/test/java/zone-03.jpg,https://www.oxgrovedems.org/,./src/test/java/default.docx
+6,Thornbury,./src/test/java/zone-06.png,http://midchescodems.org,./src/test/java/default.docx
+Precincts
+#precinct no,precinct name,zone no
+0005,ATGLEN,3
+,ATGLEN,3
+10,AVONDALE,,
+11,AVONDALE,,8
+14,BIRMINGHAM 1,6
+15,BIRMINGHAM 1,
+16,BIRMINGHAM 1,x,y,z
+17,BIRMINGHAM 1,60
