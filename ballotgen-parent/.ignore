@@ -1,0 +1,39 @@
+# Eclipse specific files
+.classpath
+.project
+.settings/
+.metadata/
+*.launch
+*.pydevproject
+
+# Maven specific files
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# Compiled Java files
+*.class
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*~
+*.bak
+*.swp
+
+# Other common build artifacts
+*.jar
+*.war
+*.ear
+/bin/
+/tmp/
+
+# Apple files
+.DS_Store
