@@ -66,7 +66,7 @@ public class ZoneProcessor {
 	}
 	
 	// Perform main initialization by validating CLI arguments.
-	static void initialize(String [] args) {
+	public static void initialize(String [] args) {
 		// check the # command line arguments
 		if (args.length != 2) {
 			Utils.logFatalError("incorrect CLI arguments:\n" +
