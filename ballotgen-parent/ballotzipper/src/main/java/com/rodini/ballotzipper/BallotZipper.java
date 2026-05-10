@@ -97,6 +97,7 @@ public class BallotZipper {
 			Utils.logAppMessage(logger, message, false);
 		}
 		GenZipFiles.genZips(zoneRoot);
+		ZoneProcessor.stop();
 		message = "End of BallotZipper app";
 		Utils.logAppErrorCount(logger);
 		Utils.logAppMessage(logger, message, true);

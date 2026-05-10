@@ -24,6 +24,10 @@ import com.rodini.ballotutils.Utils;
 /**
  * ZoneProcessor class generates the zone/precinct EclipseStore store.
  * 
+ * Notes:
+ * - when run as a standalone program, ZoneProcessor creates the store.
+ * - when run as a jar, ZoneProcessor is a client of the store.
+ * 
  * @author Bob Rodini
  *
  */
@@ -92,10 +96,10 @@ public class ZoneProcessor {
 		storeDirPath = args[1];
 		if (!Files.isDirectory(Path.of(storeDirPath))) {
 			Utils.logFatalError("invalid args[1] value, store dir doesn't exist: " + storeDirPath);
-		}		
+		}
 	}
 	// Write zone/precinct data to EclipseStore.
-	static void terminate() {
+	public static void terminate() {
 		storageManager = EmbeddedStorage.start(dataRoot, Paths.get(storeDirPath));
 		storageManager.storeRoot();
 		storageManager.shutdown();
