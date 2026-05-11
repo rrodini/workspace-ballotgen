@@ -2,7 +2,12 @@ package com.rodini.ballotzipper;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -46,23 +51,26 @@ class TestGenDocxMap {
 	@BeforeEach
 	void setUp() throws Exception {
 	    mockedAppender.messages.clear();
-	    dataRoot = ZoneProcessor.getDataRoot();
-	    dataRoot.clearZoneNoZoneMap();
-	    dataRoot.clearPrecinctNoPrecinctMap();
-	    dataRoot.clearPrecinctNoZoneMap();
-		GenDocxMap.clearDocxNoMap();
+//	    dataRoot = ZoneProcessor.getDataRoot();
+//	    dataRoot.clearZoneNoZoneMap();
+//	    dataRoot.clearPrecinctNoPrecinctMap();
+//	    dataRoot.clearPrecinctNoZoneMap();
+//		GenDocxMap.clearDocxNoMap();
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 	}
 	@Test
-	void testGoodDir() {
-		String [] args = {"./src/test/java/test-dir-01.csv", "./src/test/java/test-dir-01"};
-		ZoneProcessor.initialize(args);
+	void testGoodDir() throws IOException{
+		String [] args = {"./src/test/java/test-dir-01", "./src/test/java/test-dir-01/channel_0"};
+		String zonePropsPath = "./src/test/java/test-dir-01/zoneprocessor.properties";
+		
+		Initialize.initialize(args, zonePropsPath);
 		GenDocxMap.processInDir();
 		Map<String, MuniFiles> docxNoMap = GenDocxMap.getDocxNoMap();
 		assertEquals(3, docxNoMap.size());
+		ZoneProcessor.stop();
 	}
 
 }
