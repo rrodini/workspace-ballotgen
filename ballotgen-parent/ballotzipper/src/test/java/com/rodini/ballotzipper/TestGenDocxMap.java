@@ -21,7 +21,9 @@ import org.junit.jupiter.api.Test;
 import com.rodini.zoneprocessor.DataRoot;
 import com.rodini.zoneprocessor.ZoneProcessor;
 /**
- * uses: test-dir-01
+ * TestGenDocxMap is a CLIENT of ZoneProcessor
+ * 
+ * uses: test-dir-01-store
  * 
  * @author Bob Rodini
  *
@@ -38,7 +40,7 @@ class TestGenDocxMap {
 	    mockedAppender.start();
 	    logger = (Logger)LogManager.getLogger(GenDocxMap.class);
 	    logger.addAppender(mockedAppender);
-	    logger.setLevel(Level.ERROR);
+	    logger.setLevel(Level.DEBUG);
 	}
 
 	@AfterAll
@@ -51,11 +53,6 @@ class TestGenDocxMap {
 	@BeforeEach
 	void setUp() throws Exception {
 	    mockedAppender.messages.clear();
-//	    dataRoot = ZoneProcessor.getDataRoot();
-//	    dataRoot.clearZoneNoZoneMap();
-//	    dataRoot.clearPrecinctNoPrecinctMap();
-//	    dataRoot.clearPrecinctNoZoneMap();
-//		GenDocxMap.clearDocxNoMap();
 	}
 
 	@AfterEach
@@ -63,14 +60,16 @@ class TestGenDocxMap {
 	}
 	@Test
 	void testGoodDir() throws IOException{
-		String [] args = {"./src/test/java/test-dir-01", "./src/test/java/test-dir-01/channel_0"};
-		String zonePropsPath = "./src/test/java/test-dir-01/zoneprocessor.properties";
+		String [] args = {"./src/test/java/test-dir-01", "./src/test/java/test-dir-01-zips"};
+		String zonePropsPath = "./src/test/java/test01-zoneprocessor.properties";
 		
 		Initialize.initialize(args, zonePropsPath);
+		GenDocxMap.clearDocxNoMap();
 		GenDocxMap.processInDir();
 		Map<String, MuniFiles> docxNoMap = GenDocxMap.getDocxNoMap();
-		assertEquals(3, docxNoMap.size());
+		// Must call stop() or EclispeStore temp files are left.
 		ZoneProcessor.stop();
+		assertEquals(3, docxNoMap.size());
 	}
 
 }

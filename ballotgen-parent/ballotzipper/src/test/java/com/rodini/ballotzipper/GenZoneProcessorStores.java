@@ -19,10 +19,14 @@ import com.rodini.zoneprocessor.DataRoot;
 import com.rodini.zoneprocessor.PrecinctFactory;
 /**
 /**
+ * Generates the EclipseStores for unit tests. NOT a unit test itself!
+ * 
  * Uses: test-dir-01.csv   test-dir-01
  *       test-dir-02.csv   test-dir-02
  *       test-dir-03.csv   test-dir-03
- * 
+ * Creates: test-dir-01-store      
+ *          test-dir-02-store 
+ *          test-dir-03-store
  * @author Bob Rodini
  *
  */
@@ -34,6 +38,7 @@ class GenZoneProcessorStores {
 
 	public static void main(String [] args) {
 		setupClass();
+		// Uncomment to regenerate the stores.
 //		genTestDir01();
 //		genTestDir02();
 //		genTestDir03();

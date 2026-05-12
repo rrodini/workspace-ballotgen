@@ -53,7 +53,7 @@ public class GenDocxMap {
 			String muniNo = fileName.substring(0, 3);
 			List<String> muniFileList = new ArrayList<>();
 			while (prevMuniNo.equals(muniNo) && i < fileList.size()) {
-//System.out.printf("prefix: %s fileName: %s%n", muniNo, fileName);
+System.out.printf("prefix: %s fileName: %s%n", muniNo, fileName);
 				muniFileList.add(fileName);
 				i++;
 				if (i < fileList.size()) {
@@ -64,7 +64,7 @@ public class GenDocxMap {
 			// Since the above loop put the counter ahead by one.
 			i--;
 			MuniFiles muniFiles = new MuniFiles(muniFileList);
-//System.out.printf("map entry for %s%n", muniNo);
+System.out.printf("map entry for %s%n", muniNo);
 			docxNoMap.put(prevMuniNo, muniFiles);
 			prevMuniNo = muniNo;
 		}

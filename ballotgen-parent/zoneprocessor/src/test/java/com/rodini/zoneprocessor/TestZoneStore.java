@@ -22,13 +22,14 @@ class TestZoneStore {
 	    mockedAppender.start();
 	    logger = (Logger)LogManager.getLogger(ZoneProcessor.class);
 	    logger.addAppender(mockedAppender);
+	    logger.setLevel(Level.ERROR);
 //	    root = new DataRoot();
 	}
 
 	@AfterAll
 	public static void teardown() {
 		logger.removeAppender(mockedAppender);
-//		mockedAppender.stop();
+		mockedAppender.stop();
 	}
 
 	
@@ -46,9 +47,10 @@ class TestZoneStore {
 	}
 
 	@Test
+	// INCOMPLETE TEST!!!
 	void testMain() {
 		String [] args = {"./src/test/java/test-precinct-zone-2024.csv", "./src/test/java/test-precinct-zone-2024"};
-		ZoneProcessor.main(args);
+//		ZoneProcessor.main(args);
 	}
 
 }

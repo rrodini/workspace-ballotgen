@@ -33,7 +33,7 @@ import com.rodini.ballotutils.Utils;
  */
 public class ZoneProcessor {
 	private static final  Logger logger = LogManager.getLogger(ZoneProcessor.class);
-	private static final  String PROP_PRECINCT_ZONE_FOLDER = "precinct.to.zone.folder";
+	private static final  String PROP_PRECINCT_ZONE_STORE = "precinct.to.zone.store";
 	private static final  String ENV_BALLOTGEN_VERSION = "BALLOTGEN_VERSION";
 	private static        String precinctZoneCsvFilePath;
 	private static        String storeDirPath;
@@ -109,9 +109,9 @@ public class ZoneProcessor {
 	
 	// clients of ZoneProcessor use start() at startup.
 	static public void start(Properties props) {
-		storeDirPath = props.getProperty(PROP_PRECINCT_ZONE_FOLDER);
+		storeDirPath = props.getProperty(PROP_PRECINCT_ZONE_STORE);
 		if (storeDirPath == null) {
-			logger.error(String.format("ZoneProcessor property does not exist: %s%n", PROP_PRECINCT_ZONE_FOLDER));
+			logger.error(String.format("ZoneProcessor property does not exist: %s%n", PROP_PRECINCT_ZONE_STORE));
 		}
 		if (!Utils.checkDirExists(storeDirPath)) {
 			logger.error(String.format("folder does not exist: %s%n",precinctZoneCsvFilePath));
