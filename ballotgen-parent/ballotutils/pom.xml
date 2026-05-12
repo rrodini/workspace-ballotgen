@@ -5,7 +5,8 @@
 	<parent>
 		<groupId>com.rodini</groupId>
 		<artifactId>ballotgen-parent</artifactId>
-		<version>2.0.0</version>
+		<version>${revision}</version>
+    	<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>ballotutils</artifactId>
 	<build>
@@ -73,7 +74,6 @@
 		<dependency>
 			<groupId>com.ginsberg</groupId>
 			<artifactId>junit5-system-exit</artifactId>
-			<version>2.0.2</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

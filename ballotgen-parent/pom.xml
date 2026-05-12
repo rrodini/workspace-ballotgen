@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.rodini</groupId>
 	<artifactId>ballotgen-parent</artifactId>
-	<version>2.0.0</version>
+	<version>${revision}</version>
 	<packaging>pom</packaging>
 	<name>BalletGen2 parent pom</name>
 	<modules>
@@ -12,6 +12,15 @@
 		<module>zoneprocessor</module>
 		<module>ballotzipper</module>
 	</modules>
+	<properties>
+	    <!-- version of BallotGen itself. -->
+		<revision>2.0.0</revision>
+		<java.version>21</java.version>
+		<apache.log4j.version>2.17.1</apache.log4j.version>
+		<junit.jupiter.version>5.8.2</junit.jupiter.version>
+		<ginsberg.sysexit.version>2.0.2</ginsberg.sysexit.version>
+		<eclipse.store.version>3.0.0</eclipse.store.version>
+	</properties>
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -19,7 +28,7 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.8.1</version>
 					<configuration>
-						<release>20</release>
+						<release>${java.version}</release>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -31,6 +40,11 @@
 							<include>**/Test*.java</include>
 						</includes>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>3.3.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.jacoco</groupId>
@@ -62,33 +76,44 @@
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-slf4j-impl</artifactId>
-			<version>2.17.1</version>
+			<version>${apache.log4j.version}</version>
 		</dependency>
 
  		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
-			<version>2.17.1</version>
+			<version>${apache.log4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<version>2.17.1</version>
+			<version>${apache.log4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.8.2</version>
+			<version>${junit.jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
-<!--		<dependency>
-   		  <groupId>com.rodini</groupId>
-    	  <artifactId>ballot-utils</artifactId>
-    	  <version>1.7.0</version>
+		<dependency>
+			<groupId>com.ginsberg</groupId>
+			<artifactId>junit5-system-exit</artifactId>
+			<version>${ginsberg.sysexit.version}</version>
+			<scope>test</scope>
 		</dependency>
---> 
+		<dependency>
+   		  <groupId>com.rodini</groupId>
+    	  <artifactId>ballotutils</artifactId>
+    	  <version>${revision}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.store</groupId>
+			<artifactId>storage-embedded</artifactId>
+			<version>${eclipse.store.version}</version>
+		</dependency>
+
 	  </dependencies>
-		
+	
 	</dependencyManagement>
 
 </project>

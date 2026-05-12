@@ -5,7 +5,8 @@
 	<parent>
 		<groupId>com.rodini</groupId>
 		<artifactId>ballotgen-parent</artifactId>
-		<version>2.0.0</version>
+		<version>${revision}</version>
+    	<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>zoneprocessor</artifactId>
 	<build>
@@ -13,7 +14,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.3.0</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -70,13 +70,11 @@
 		<dependency>
 			<groupId>com.rodini</groupId>
 			<artifactId>ballotutils</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.eclipse.store</groupId>
 			<artifactId>storage-embedded</artifactId>
-			<version>3.0.0</version>
 		</dependency>
 	</dependencies>
 </project>

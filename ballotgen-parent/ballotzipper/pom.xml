@@ -3,7 +3,8 @@
   <parent>
     <groupId>com.rodini</groupId>
     <artifactId>ballotgen-parent</artifactId>
-    <version>2.0.0</version>
+    <version>${revision}</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>ballotzipper</artifactId>
   <name>BallotZipper</name>
@@ -13,7 +14,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.3.0</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -58,12 +58,11 @@
 		<dependency>
 			<groupId>com.rodini</groupId>
 			<artifactId>zoneprocessor</artifactId>
-			<version>2.0.0</version>
+    	    <version>${revision}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.rodini</groupId>
 			<artifactId>ballotutils</artifactId>
-			<version>2.0.0</version>
 		</dependency>
 	</dependencies>
 
