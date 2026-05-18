@@ -11,6 +11,7 @@
 		<module>ballotutils</module>
 		<module>zoneprocessor</module>
 		<module>ballotzipper</module>
+		<module>ballotprocessor</module>
 	</modules>
 	<properties>
 	    <!-- version of BallotGen itself. -->
