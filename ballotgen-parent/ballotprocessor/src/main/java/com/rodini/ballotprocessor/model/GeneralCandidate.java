@@ -50,7 +50,7 @@ public class GeneralCandidate extends Candidate {
 	
 	@Override
 	public String toString() {
-		return String.format("%s : %s %s", name, party.toString(), textBeneathName);
+		return String.format("%s : %s", name, textBeneathName);
 	}
 
 }

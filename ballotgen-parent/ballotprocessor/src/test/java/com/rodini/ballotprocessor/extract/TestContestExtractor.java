@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.Level;
@@ -22,7 +21,6 @@ import com.rodini.ballotprocessor.model.*;
 import com.rodini.ballotutils.Utils;
 
 import static com.rodini.ballotprocessor.extract.BallotText.*;
-import com.rodini.ballotutils.Utils;
 import com.rodini.ballotutils.ElectionType;
 import com.rodini.ballotutils.Party;
 
@@ -64,7 +62,7 @@ class TestContestExtractor {
 	    mockedAppender.start();
 	    logger = (Logger)LogManager.getLogger(ContestExtractor.class);
 	    logger.addAppender(mockedAppender);
-	    logger.setLevel(Level.DEBUG);
+	    logger.setLevel(Level.ERROR);
 	    Initialize.writeIn = "Write-in\n"; // must have trailing \n
 	    Initialize.contestTextRegex = new Pattern[2];
 	    Initialize.contestTextRegex[0] = null;
@@ -80,12 +78,13 @@ class TestContestExtractor {
 
 	@BeforeEach
 	void setUp() throws Exception {
+		mockedAppender.messages.clear();
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 	}
-
+	//@Disabled
 	@Test
 	void testExtractContests1() {
 		// 005_ATGLEN Primary 2024
@@ -170,7 +169,7 @@ class TestContestExtractor {
 		// Note the precedence of regex[0] over regex[1]
 		Initialize.contestTextRegex[0] = Utils.compileRegex("^(?<title>(.*\n){1})(?<instructions>^Vote for the candidates of one\nparty for President and\nVice-President, or insert the\nnames of candidates.\n)(?<candidates>((.*\n){1})*?)^Write-in$");
 		Initialize.contestTextRegex[1] = Utils.compileRegex("^(?<title>(.*\n){1,3})(?<instructions>^Vote.*)\n(?<candidates>((.*\n){1})*?)^Write-in$");
-		Initialize.elecType = ElectionType.PRIMARY;
+		Initialize.elecType = ElectionType.GENERAL;
 		Initialize.endorsedParty = Party.DEMOCRATIC;
 		// Create dummy ballot that is needed.
 		Ballot ballot = new Ballot("005_ATGLEN", "");

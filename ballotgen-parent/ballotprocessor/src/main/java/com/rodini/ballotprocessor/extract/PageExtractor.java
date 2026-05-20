@@ -1,5 +1,6 @@
 package com.rodini.ballotprocessor.extract;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,6 +10,9 @@ import org.apache.logging.log4j.Logger;
 
 import com.rodini.ballotprocessor.Initialize;
 import com.rodini.ballotprocessor.model.Ballot;
+import com.rodini.ballotprocessor.model.Contest;
+import com.rodini.ballotprocessor.model.Referendum;
+import com.rodini.ballotprocessor.model.Retention;
 /**
  * PageExtractor has the responsibility for isolating the page text for each Ballot object.
  * This isolation helps with the creation of VoteFor objects.
@@ -45,7 +49,7 @@ public class PageExtractor {
 		String precinctNoName = ballot.getPrecinctNoName();
 		String page1Text = "";
 		String page2Text = "";
-		if (extractPageCount(rawText) == 1) {
+		if (extractPageCount(ballot, rawText) == 1) {
 			// Use just one regex.
 			page1Text = extractPage(precinctNoName, rawText, Initialize.onePageTextRegex, 1);
 		} else {
@@ -57,6 +61,7 @@ public class PageExtractor {
 		ballot.setPage2Text(page2Text);
 		// Don't need raw text anymore.
 		ballot.discardRawText();
+		extractVoteFors(ballot);
 	}
 	/**
 	 * Use the precinctPageBreakRegex to recognize a two-page ballot.
@@ -64,13 +69,14 @@ public class PageExtractor {
 	 * @param rawText complete precinct ballot text
 	 * @return 1 or 2.
 	 */
-	static int extractPageCount(String rawText) {
+	static int extractPageCount(Ballot ballot, String rawText) {
 		int pageCount = 1;
 		Pattern pageBreakRegex = Initialize.pageBreakRegex;
 		Matcher m = pageBreakRegex.matcher(rawText);
 		if (m.find()) {
 			pageCount = 2;
 		}
+		logger.debug(String.format("ballot: %s has %d pages", ballot.getPrecinctNoName(), pageCount));
 		return pageCount;
 	}
 	
@@ -91,9 +97,9 @@ public class PageExtractor {
 	 */
 	static String extractPage(String precinctNoName, String rawText, Pattern pageRegex, int pageNo) {
 		String pageText = "";
-		logger.debug("rawText:");
-		logger.debug(rawText);
-		logger.debug("---------");
+//		logger.debug("rawText:");
+//		logger.debug(rawText);
+//		logger.debug("---------");
 		
 		Matcher m = pageRegex.matcher(rawText);
 		if (!m.find()) {
@@ -112,6 +118,52 @@ public class PageExtractor {
 			}
 		}
 		return pageText;
+	}
+
+	static void extractVoteFors(Ballot ballot) {
+		String page1Text = ballot.getPage1Text();
+		String page2Text = ballot.getPage2Text();
+		// Contest extraction.
+		List<Contest> contests;
+		// Page 1.
+		contests = ContestExtractor.extractContests(ballot, page1Text);
+		extendContests(ballot, contests);
+		// Page 2.
+		contests.clear();
+		
+if (page2Text.isEmpty()) System.out.println("PAGE2TEXT IS EMPTY");
+
+		contests = ContestExtractor.extractContests(ballot, page2Text);
+		// If there are page 2 contests, need to generate a page break here.
+		if (contests.size() > 0) {
+			Contest pageBreakContest = new Contest(ballot, Initialize.CONTEST_PAGE_BREAK, null, null, null);
+			extendContests(ballot, List.of(pageBreakContest));
+		}
+		extendContests(ballot, contests);
+		// Referendum extraction.
+		List<Referendum> referendums;
+		referendums = ReferendumExtractor.extractReferendums(ballot, page2Text);
+		extendReferendums(ballot, referendums);
+		// Retention extraction.
+		List<Retention> retentions;
+		retentions = RetentionExtractor.extractRetentions(ballot, page2Text);
+		extendRetentions(ballot, retentions);
+	}
+	
+	static void extendContests(Ballot ballot, List<Contest> contests) {
+		for (Contest contest: contests) {
+			ballot.extendVoteFors(contest);
+		}		
+	}
+	static void extendReferendums(Ballot ballot, List<Referendum> referendums) {
+		for (Referendum referendum: referendums) {
+			ballot.extendVoteFors(referendum);
+		}		
+	}
+	static void extendRetentions(Ballot ballot, List<Retention> retentions) {
+		for (Retention retention: retentions) {
+			ballot.extendVoteFors(retention);
+		}		
 	}
 
 }

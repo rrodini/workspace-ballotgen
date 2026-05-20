@@ -1,6 +1,7 @@
 package com.rodini.ballotprocessor.model;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -59,9 +60,32 @@ public class Ballot {
 	public void extendVoteFors(Referendum referendum) {
 		voteFors.add(referendum);
 	}
+	public void extendVoteFors(Retention retention) {
+		voteFors.add(retention);
+	}
 	public List<VoteFor> getVoteFors() {
 		return voteFors;
 	}
-
+	public List<Contest> getContests() {
+		List<Contest> contests = voteFors.stream()
+				.filter(vf -> vf instanceof Contest)
+				.map(vf -> (Contest) vf)
+				.collect(Collectors.toList());
+		return contests;
+	}
+	public List<Referendum> getReferendums() {
+		List<Referendum> referendums = voteFors.stream()
+				.filter(vf -> vf instanceof Referendum)
+				.map(vf -> (Referendum) vf)
+				.collect(Collectors.toList());
+		return referendums;
+	}
+	public List<Retention> getRetentions() {
+		List<Retention> retentions = voteFors.stream()
+				.filter(vf -> vf instanceof Retention)
+				.map(vf -> (Retention) vf)
+				.collect(Collectors.toList());
+		return retentions;
+	}
 
 }

@@ -106,7 +106,6 @@ Eric Roe
 Republican
 Write-in
 Write-in
-Typ:01 Seq:0001 Spl:01
 Sheriff
 Vote for ONE
 Kevin Dykes
@@ -319,7 +318,6 @@ Eric Roe
 Republican
 Write-in
 Write-in
-Typ:01 Seq:0081 Spl:01
 Sheriff
 Vote for ONE
 Kevin Dykes

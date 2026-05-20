@@ -6,6 +6,8 @@ import static java.util.stream.Collectors.joining;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.rodini.ballotprocessor.Initialize;
+
 
 public class Contest extends VoteFor {
 	private static final Logger logger = LogManager.getLogger(Contest.class);
@@ -20,7 +22,7 @@ public class Contest extends VoteFor {
 
 	public Contest(Ballot ballot, String title, String term, String instructions, List<Candidate> candidates) {
 		super(ballot, title);
-		this.term = term;
+		this.term = "";
 		this.instructions = instructions;
 		this.candidates = candidates;
 	}
@@ -36,6 +38,9 @@ public class Contest extends VoteFor {
 	@Override
 	public String toString() {
 		// shorten to essential info
+		if (title.equals(Initialize.CONTEST_PAGE_BREAK)) {
+			return Initialize.CONTEST_PAGE_BREAK + "\n";
+		}
 		StringBuilder sb = new StringBuilder("Contest: ");
 		sb.append(title + "\n");
 		if (!term.isEmpty()) {
@@ -43,8 +48,9 @@ public class Contest extends VoteFor {
 		}
 		sb.append(instructions + "\n");
 		sb.append("Candidates: ");
-		String names = candidates.stream().map( candidate -> candidate.toString()).collect(joining(","));
+		String names = candidates.stream().map( candidate -> candidate.toString()).collect(joining(", "));
 		sb.append(names);
+		sb.append("\n");
 		String contestText = sb.toString();
 		// strip off the final ", " from last candidate
 		return contestText;

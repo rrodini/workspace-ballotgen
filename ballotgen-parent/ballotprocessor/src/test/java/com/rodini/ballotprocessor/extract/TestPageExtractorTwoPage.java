@@ -218,7 +218,6 @@ class TestPageExtractorTwoPage {
 		assertEquals(expectedPage1Text, page1Text);
 		assertEquals(expectedPage2Text, page2Text);
 		assertTrue(ballot.getRawText() == null);
-		
 	}
 
 }

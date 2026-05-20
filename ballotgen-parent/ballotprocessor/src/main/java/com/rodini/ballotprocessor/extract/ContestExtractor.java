@@ -5,15 +5,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.rodini.ballotprocessor.Initialize;
 import com.rodini.ballotprocessor.model.Ballot;
-import com.rodini.ballotprocessor.model.Contest;
 import com.rodini.ballotprocessor.model.Candidate;
-import com.rodini.ballotutils.Utils;
+import com.rodini.ballotprocessor.model.Contest;
 
 
 public class ContestExtractor {
@@ -41,7 +39,7 @@ public class ContestExtractor {
 		}
 	}
 	/**
-	 * extractContests loops thru the pageText applying ballot contest regexes to parse a contest.
+	 * extractContests loops thru the pageText applying ballot contest regexes to parse out contests.
 	 * The algorithm relies on VS formatting each contest on the page like this:
 	 * +----------------+
 	 * | title          |
@@ -50,11 +48,11 @@ public class ContestExtractor {
 	 * | Write-in       |
 	 * +----------------+
 	 * The assumption is that the pageText starts with a contest title and
-	 * the first literal "Write-in" is the end of its candidate list.
+	 * the first literal "Write-in\n" is the end of its candidate list.
 	 * 
 	 * @param ballot Ballot object.
 	 * @param pageText Ballot's page1 or page2 text.
-	 * @return
+	 * @return List of Contest objects
 	 */
 	static List<Contest> extractContests(Ballot ballot, String pageText) {
 		List<Contest> contests = new ArrayList<>();
@@ -62,9 +60,11 @@ public class ContestExtractor {
 		int end = 0;
 		if (pageText.isEmpty()) {
 			// Page1 should have contests, but Page2 may not.
+			logger.debug(String.format("empty page - can't extract contests precinctNoName: %s", ballot.getPrecinctNoName()));
 			return contests;
 		} else if (pageText.lastIndexOf(Initialize.writeIn) == -1) {
-			// We're in trouble since there is no literal Write-in text.
+			// It could be that page2Text only has Referendums or Retentions, no contests.
+			// Report an error so an expert can investigate.
 			logger.error("lastIndexOf(" + Initialize.writeIn + ") is -1");
 			logger.error(String.format("defective ballot: %s pageText: %s", ballot.getPrecinctNoName(), pageText));
 			return contests;
@@ -77,7 +77,6 @@ public class ContestExtractor {
 		while (start < pageText.length()) {
 			end = findContestEnd(pageText, start);
 			String contestText = pageText.substring(start, end);
-System.out.println("contestText:" + contestText);
 			Contest contest = matchContest(ballot, contestText);
 			if (contest != null) {
 				contests.add(contest);
@@ -96,12 +95,12 @@ System.out.println("contestText:" + contestText);
 	static int findContestEnd(String contestText, int start) {
 		int len = Initialize.writeIn.length();
 		int end = contestText.indexOf(Initialize.writeIn, start);
-		// there should be at least one "Write-in" line.
+		// there should be at least one "Write-in\n" line.
 		if (end == -1) {
 			logger.error("Can't find \"" + Initialize.writeIn.trim() + "\"" );
 			return contestText.length();
 		}
-		// Skip over multiple "Write-in" lines.
+		// Skip over multiple "Write-in\n" lines.
 		while ( end + len <= contestText.length() &&
 				contestText.substring(end, end+len).equals(Initialize.writeIn)) {
 			end = end + len;
@@ -115,10 +114,9 @@ System.out.println("contestText:" + contestText);
 	 * cover all ballots issued by VS. The first regex is more stringent
 	 * (harder) to match than the second regex.
 	 * 
-	 * Note:
+	 * Notes:
 	 * 1) There may be more than two regexes in the list, but the stringency
 	 *    condition should still be met.
-	 * 2) Referendum and Retention text is also submitted.
 	 * 
 	 * @param ballot Ballot object.
 	 * @param contestText text for one contest.
@@ -150,13 +148,19 @@ System.out.println("contestText:" + contestText);
 				}
 				return contest;
 			}
-
+	/**
+	 * contestFactory creates a Contest object.
+	 * 
+	 * @param ballot Ballot object,
+	 * @param title of the contest.
+	 * @param m Matcher objects.
+	 * @return Contest object.
+	 */
 	static Contest contestFactory(Ballot ballot, String title, Matcher m) {
 		Contest contest = Contest.GENERIC_CONTEST;
 		try {
 			// "term" is optional
-//			String term = getMatchGroup(m, "term");
-			String term = "";
+			String term = getMatchGroup(m, "term");
 			String instructions = getMatchGroup(m, "instructions");
 			String candidatesText = getMatchGroup(m, "candidates");
 			CandidateFactory cf = new CandidateFactory(title, candidatesText, Initialize.elecType, Initialize.endorsedParty);
