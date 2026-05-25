@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 class TestRetention {
 	Ballot ballot; // dummy object
 	Retention retention;
-	String title = "Superior Court Retention\nElection Question";
+	String title = "Superior Court Retention";
 	String text = "Shall Jack Panella be retained for an\nadditional term as Judge of the\nSuperior Court of the Commonwealth\nof Pennsylvania?";
 	String judgeName = "Jack Panella";
 	@Test
@@ -19,7 +19,7 @@ class TestRetention {
 	}
 	@Test
 	void testToString() {
-		String expected = "Retention:\ntitle: " + title + " judge: " + judgeName;
+		String expected = "Retention:\ntitle: " + title + "\ntext: " + text;
 		retention = new Retention(ballot, title, text, judgeName);
 		assertEquals(expected, retention.toString());
 	}

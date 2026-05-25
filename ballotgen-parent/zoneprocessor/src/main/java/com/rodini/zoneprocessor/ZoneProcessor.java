@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.store.storage.embedded.types.EmbeddedStorage;
 import org.eclipse.store.storage.embedded.types.EmbeddedStorageManager;
 
+import com.rodini.ballotprocessor.DataRoot;
 import com.rodini.ballotutils.Utils;
 
 /**
@@ -97,6 +98,8 @@ public class ZoneProcessor {
 		if (!Files.isDirectory(Path.of(storeDirPath))) {
 			Utils.logFatalError("invalid args[1] value, store dir doesn't exist: " + storeDirPath);
 		}
+		String absStoreDirPath = Paths.get(storeDirPath).toAbsolutePath().toString();
+		logger.info(String.format("zone store abs. path: %s", absStoreDirPath));
 	}
 	// Write zone/precinct data to EclipseStore.
 	public static void terminate() {
@@ -113,19 +116,32 @@ public class ZoneProcessor {
 		if (storeDirPath == null) {
 			logger.error(String.format("ZoneProcessor property does not exist: %s%n", PROP_PRECINCT_ZONE_STORE));
 		}
+		String absStoreDirPath = Paths.get(storeDirPath).toAbsolutePath().toString();
+		logger.info(String.format("zone store abs. path: %s", absStoreDirPath));
 		if (!Utils.checkDirExists(storeDirPath)) {
-			logger.error(String.format("folder does not exist: %s%n",precinctZoneCsvFilePath));
+			logger.error(String.format("folder does not exist: %s%n", storeDirPath));
 		}
 		dataRoot = new DataRoot();
 		storageManager = EmbeddedStorage.start(dataRoot, Paths.get(storeDirPath));
-
+	    dataRoot = (DataRoot) storageManager.root();
+	    if (storageManager.root() != null) {
+	        dataRoot = (DataRoot) storageManager.root();
+	        logger.info("ZoneProcessor.start() loaded existing DataRoot from store");
+	    } else {
+	        logger.error("ZoneProcessor.start() created new DataRoot");
+	    }
 	}
 	// clients of ZoneProcessor need access to dataRoot.
 	public static DataRoot getDataRoot() {
+		logger.info(String.format("ZoneProcessor.getDataRoot()"));
+		if (dataRoot == null) {
+			logger.error(String.format("ZoneProcessor dataRoot is null."));
+		}
 		return dataRoot;
 	}
 	// clients of ZoneProcessor use stop() at end.
 	static public void stop() {
+		logger.info(String.format("ZoneProcessor.stop() called EmbeddedStorage.shutdown()"));
 		storageManager.shutdown();
 	}
 	// old initialization API

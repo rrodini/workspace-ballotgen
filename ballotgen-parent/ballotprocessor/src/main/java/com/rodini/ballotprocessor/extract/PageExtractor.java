@@ -61,6 +61,7 @@ public class PageExtractor {
 		ballot.setPage2Text(page2Text);
 		// Don't need raw text anymore.
 		ballot.discardRawText();
+		// Now extract Contests, Referendums, and Retentions.
 		extractVoteFors(ballot);
 	}
 	/**
@@ -96,11 +97,7 @@ public class PageExtractor {
 	 * @return text of page 1 or 2.
 	 */
 	static String extractPage(String precinctNoName, String rawText, Pattern pageRegex, int pageNo) {
-		String pageText = "";
-//		logger.debug("rawText:");
-//		logger.debug(rawText);
-//		logger.debug("---------");
-		
+		String pageText = "";		
 		Matcher m = pageRegex.matcher(rawText);
 		if (!m.find()) {
 			String msg = String.format("no match for precinctNoName: %s precinct page %d.  regex: %s", precinctNoName, pageNo, pageRegex.pattern());
@@ -129,10 +126,10 @@ public class PageExtractor {
 		contests = ContestExtractor.extractContests(ballot, page1Text);
 		extendContests(ballot, contests);
 		// Page 2.
-		contests.clear();
-		
-if (page2Text.isEmpty()) System.out.println("PAGE2TEXT IS EMPTY");
-
+		contests.clear();		
+		if (page2Text.isEmpty()) {
+			logger.debug(String.format("page 2 empty. %s", ballot.getPrecinctNoName()));
+		}
 		contests = ContestExtractor.extractContests(ballot, page2Text);
 		// If there are page 2 contests, need to generate a page break here.
 		if (contests.size() > 0) {

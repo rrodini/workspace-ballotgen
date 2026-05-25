@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import com.rodini.ballotprocessor.BallotProcessor;
 import com.rodini.ballotprocessor.Initialize;
 import com.rodini.ballotprocessor.model.*;
 import com.rodini.ballotutils.Utils;
@@ -102,8 +103,8 @@ class TestContestExtractor {
 		// 2024_Primary_Dems context regexes
 		Initialize.contestTextRegex[0] = Utils.compileRegex("^(?<title>(.*\n){1,3})(?<instructions>^Vote.*)\n(?<candidates>((.*\n){1})*?)^Write-in$");
 		Initialize.contestTextRegex[1] = null;
-		Initialize.elecType = ElectionType.PRIMARY;
-		Initialize.endorsedParty = Party.DEMOCRATIC;
+		BallotProcessor.electionType = ElectionType.PRIMARY;
+		BallotProcessor.endorsedParty = Party.DEMOCRATIC;
 		// Create dummy ballot that is needed.
 		Ballot ballot = new Ballot("005_ATGLEN", "");
 		contests = ContestExtractor.extractContests(ballot, ATGLEN_PRIMARY_2024_BALLOT);
@@ -137,8 +138,8 @@ class TestContestExtractor {
 		// 2023_Primary_Dems contest regexes
 		Initialize.contestTextRegex[0] = Utils.compileRegex("^(?<title>(.*\n){1,3})(?<instructions>^Vote.*)\n(?<candidates>((.*\n){1})*?)^Write-in$");
 		Initialize.contestTextRegex[1] = null;
-		Initialize.elecType = ElectionType.PRIMARY;
-		Initialize.endorsedParty = Party.DEMOCRATIC;
+		BallotProcessor.electionType = ElectionType.PRIMARY;
+		BallotProcessor.endorsedParty = Party.DEMOCRATIC;
 		// Create dummy ballot that is needed.
 		Ballot ballot = new Ballot("350_MALVERN", "");
 		contests = ContestExtractor.extractContests(ballot, MALVERN_PRIMARY_2023_BALLOT);
@@ -169,8 +170,8 @@ class TestContestExtractor {
 		// Note the precedence of regex[0] over regex[1]
 		Initialize.contestTextRegex[0] = Utils.compileRegex("^(?<title>(.*\n){1})(?<instructions>^Vote for the candidates of one\nparty for President and\nVice-President, or insert the\nnames of candidates.\n)(?<candidates>((.*\n){1})*?)^Write-in$");
 		Initialize.contestTextRegex[1] = Utils.compileRegex("^(?<title>(.*\n){1,3})(?<instructions>^Vote.*)\n(?<candidates>((.*\n){1})*?)^Write-in$");
-		Initialize.elecType = ElectionType.GENERAL;
-		Initialize.endorsedParty = Party.DEMOCRATIC;
+		BallotProcessor.electionType = ElectionType.GENERAL;
+		BallotProcessor.endorsedParty = Party.DEMOCRATIC;
 		// Create dummy ballot that is needed.
 		Ballot ballot = new Ballot("005_ATGLEN", "");
 		contests = ContestExtractor.extractContests(ballot, ATGLEN_GENERAL_2024_BALLOT);

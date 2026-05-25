@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,11 +23,18 @@ class TestPageExtractorOnePage {
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
+	    Initialize.writeIn = "Write-in\n"; // must have trailing \n
 		Initialize.ballotTextRegex = Utils.compileRegex("(?m)^(?<id>\\d+) (?<name>.*) DEM\n^OFFICIAL CHESTER COUNTY$\n");
 		Initialize.pageBreakRegex = Utils.compileRegex("(?m)Vote Both Sides");
 		Initialize.onePageTextRegex = Utils.compileRegex("(?m)((.*\n)*^by regular ballot.\n)(?<page>((.*)\n)*)^Chester County$");
 		Initialize.twoPageTextP1Regex = Utils.compileRegex("(?m)((.*\n)*^Chester County Board of\nElections\n)(?<page>((.*)\n)*?)^Vote Both Sides$");
 		Initialize.twoPageTextP2Regex = Utils.compileRegex("(?m)(^Vote Both Sides$\n)(.*\n)*(^Vote Both Sides$\n)(?<page>((.*)\n)*)^Review$");
+	    Initialize.contestTextRegex = new Pattern[2];
+		Initialize.contestTextRegex[0] = Utils.compileRegex("^(?<title>(.*\n){1,3})(?<instructions>^Vote.*)\n(?<candidates>((.*\n){1})*?)^Write-in$");
+	    Initialize.contestTextRegex[1] = null;
+	    Initialize.referendumTextRegex = Utils.compileRegex("(?mi)^(?<title>(.*Referendum.*\n))(?<text>(.*\n)*?)^YES$\nNO$");
+	    Initialize.retentionTextRegex = Utils.compileRegex("(?mi)^(?<title>.*Retention\nElection Question$)(?<question>((.*)\n)*?)^YES\nNO");
+	    Initialize.retentionNameRegex = Utils.compileRegex("((.*)\n)*^Shall (?<name>(.*)?) be retained.*\n");
 	}
 
 	@BeforeEach

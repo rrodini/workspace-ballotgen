@@ -50,7 +50,11 @@ public class GeneralCandidate extends Candidate {
 	
 	@Override
 	public String toString() {
-		return String.format("%s : %s", name, textBeneathName);
+		String beneathName = textBeneathName;
+		if (beneathName.isEmpty()) {
+			beneathName = this.party.toString();
+		}
+		return String.format("%s : %s", name, beneathName);
 	}
 
 }

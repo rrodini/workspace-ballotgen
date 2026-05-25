@@ -26,6 +26,6 @@ public class Retention extends VoteFor{
 	}
     
 	public String toString() {
-		return String.format("Retention:%ntitle: %s text: %s", title, retText);	
+		return String.format("Retention:%ntitle: %s\ntext: %s", title, retText);	
 	}
 }

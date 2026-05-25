@@ -30,14 +30,14 @@ class TestCandidate {
 	}
 	@Test
 	void testToString1() {
-		String expected = "Joe Biden : Democratic ";
+		String expected = "Joe Biden : Democratic";
 		GeneralCandidate candidate = new GeneralCandidate("Joe Biden", Party.DEMOCRATIC, "", false);
 		assertEquals(expected, candidate.toString());
 		assertEquals(Party.DEMOCRATIC, candidate.getParty());
 	}
 	@Test
 	void testToString2() {
-		String expected = "Austin Davis : Democratic Lieutenant Governor, Democratic";
+		String expected = "Austin Davis : Lieutenant Governor, Democratic";
 		GeneralCandidate candidate = new GeneralCandidate("Austin Davis", Party.DEMOCRATIC, "Lieutenant Governor, Democratic", true);
 		assertEquals(expected, candidate.toString());
 	}

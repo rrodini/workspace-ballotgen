@@ -38,7 +38,7 @@ public abstract class Candidate {
 	}
 	@Override
 	public String toString() {
-		return name;
+		return name + " : " + party;
 	}
 
 }

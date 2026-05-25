@@ -18,7 +18,7 @@
 		<revision>2.0.0</revision>
 		<java.version>21</java.version>
 		<apache.log4j.version>2.17.1</apache.log4j.version>
-		<junit.jupiter.version>5.8.2</junit.jupiter.version>
+		<junit.jupiter.version>5.11.4</junit.jupiter.version>
 		<ginsberg.sysexit.version>2.0.2</ginsberg.sysexit.version>
 		<eclipse.store.version>3.0.0</eclipse.store.version>
 	</properties>

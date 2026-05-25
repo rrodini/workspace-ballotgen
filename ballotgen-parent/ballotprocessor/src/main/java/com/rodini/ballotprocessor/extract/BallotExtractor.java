@@ -69,6 +69,12 @@ public class BallotExtractor {
 		return ballots;
 	}
 	/**
+	 * 
+	 */
+	static void extractElection(String specimenText) {
+		
+	}
+	/**
 	 * extractPrecinctNoNames extracts the id/name (key) for the ballot objects.
 	 * E.g. 005_ATGLEN
 	 * 

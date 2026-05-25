@@ -43,8 +43,8 @@ class TestContest {
 		String contestText = "Contest: " +
 							 "Justice of the Supreme Court\n" +
 							 "Vote for ONE\n" +
-							 "Candidates: Maria McLaughlin : Democratic ," +
-							 "Kevin Brobson : Republican "
+							 "Candidates: Maria McLaughlin : Democratic, " +
+							 "Kevin Brobson : Republican\n"
 							 ;
 		assertEquals(contestText, contest.toString());
 	}

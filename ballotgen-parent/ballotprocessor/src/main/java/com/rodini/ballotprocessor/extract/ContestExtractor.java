@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.rodini.ballotprocessor.BallotProcessor;
 import com.rodini.ballotprocessor.Initialize;
 import com.rodini.ballotprocessor.model.Ballot;
 import com.rodini.ballotprocessor.model.Candidate;
@@ -163,7 +164,7 @@ public class ContestExtractor {
 			String term = getMatchGroup(m, "term");
 			String instructions = getMatchGroup(m, "instructions");
 			String candidatesText = getMatchGroup(m, "candidates");
-			CandidateFactory cf = new CandidateFactory(title, candidatesText, Initialize.elecType, Initialize.endorsedParty);
+			CandidateFactory cf = new CandidateFactory(title, candidatesText, BallotProcessor.electionType, BallotProcessor.endorsedParty);
 			List<Candidate> candidates = cf.getCandidates();
 			contest = new Contest(ballot, title, term, instructions, candidates);
 		} catch (Exception e) {
