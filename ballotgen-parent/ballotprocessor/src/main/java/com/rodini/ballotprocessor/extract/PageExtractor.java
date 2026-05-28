@@ -49,6 +49,7 @@ public class PageExtractor {
 		String precinctNoName = ballot.getPrecinctNoName();
 		String page1Text = "";
 		String page2Text = "";
+		logger.info(String.format("page extraction: %s", precinctNoName));
 		if (extractPageCount(ballot, rawText) == 1) {
 			// Use just one regex.
 			page1Text = extractPage(precinctNoName, rawText, Initialize.onePageTextRegex, 1);

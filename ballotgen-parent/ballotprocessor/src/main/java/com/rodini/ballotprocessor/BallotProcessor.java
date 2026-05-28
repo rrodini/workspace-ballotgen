@@ -15,6 +15,7 @@ import com.rodini.ballotutils.Party;
 import com.rodini.ballotutils.Utils;
 import com.rodini.ballotprocessor.extract.BallotExtractor;
 import com.rodini.ballotprocessor.extract.ElectionExtractor;
+import com.rodini.ballotprocessor.extract.PageExtractor;
 import com.rodini.ballotprocessor.model.Ballot;
 import com.rodini.ballotprocessor.model.Election;
 /**
@@ -24,12 +25,13 @@ import com.rodini.ballotprocessor.model.Election;
  * As a component it provides an API to the EclipseStore data store.
  */
 public class BallotProcessor {
-	static final Logger logger = LogManager.getRootLogger();
+	private static final  Logger logger = LogManager.getLogger(BallotProcessor.class);
 	public  static String specimenText; // text of the Voter Services specimen.
+	private static Election election;
 	public  static ElectionType electionType;
 	public  static Party endorsedParty;
 	public  static List<Ballot> ballots;
-	private static String storeDirPath;
+	public  static String storeDirPath;
 	private static final String PROP_BALLOT_STORE = "ballot.store";
 	private static final String ENV_BALLOTGEN_VERSION = "BALLOTGEN_VERSION";
 	private static DataRoot dataRoot;
@@ -47,9 +49,12 @@ public class BallotProcessor {
 		Utils.logAppMessage(logger, message, true);		
 		initialize(args);
 		dataRoot = new DataRoot();
-		// create ballots here
+		// Create raw Ballot objects here
 		ballots = BallotExtractor.extract(specimenText);
-		Election election = ElectionExtractor.extract(specimenText);
+		// Update each ballot object with VoteFor objects here.
+		PageExtractor.extract(ballots);
+		// Create Election object here.
+		election = ElectionExtractor.extract(specimenText);
 		dataRoot.setElection(election);
 		terminate();
 		message = "End of BallotProcessor app";
@@ -66,11 +71,13 @@ public class BallotProcessor {
 	// Write BallotProcessor data to EclipseStore.
 	public static void terminate() {
 		logger.info("BallotProcessor.terminate() called.");
+		// Wipe out previous contents of store to avoid legacy object issues.
+		Utils.deleteDir(storeDirPath);
 		storageManager = EmbeddedStorage.start(dataRoot, Paths.get(storeDirPath));
 		storageManager.storeRoot();
 		storageManager.shutdown();
-//		// Give a short report
-//		dataRoot.logRootContent();
+		// Generate the summary report.
+		GenerateBallotSummary.generate(election);
 	}
 
 	// clients of BallotProcessor use start() at startup.

@@ -23,19 +23,8 @@ public class RetentionExtractor {
 	// prevent instantiation.
 	private RetentionExtractor() {}
 	
-	static final Logger logger = LogManager.getLogger(ReferendumExtractor.class);
+	static final Logger logger = LogManager.getLogger(RetentionExtractor.class);
 
-	public static void extract(List<Ballot> ballots) {
-		List<Retention> retentions;
-		for (Ballot ballot: ballots) {
-			// To date, retention questions have only appeared on Page 2.
-			// So, only look for them on page2Text.
-			retentions = extractRetentions(ballot, ballot.getPage2Text());
-			for (Retention retention: retentions) {
-				ballot.extendVoteFors(retention);
-			}
-		}
-	}
 	/**
 	 * extractRetentions loops thru the pageText applying ballot retention regex to parse a retention.
 	 * The algorithm relies on VS formatting each retention on the page like this:
@@ -57,7 +46,7 @@ public class RetentionExtractor {
 	 * @return List of Retention objects.
 	 */
 	public static List<Retention> extractRetentions(Ballot ballot, String pageText) {
-		logger.debug(String.format("empty page - can't extract retentions precinctNoName: %s", ballot.getPrecinctNoName()));
+		logger.info(String.format("extract retentions precinctNoName: %s", ballot.getPrecinctNoName()));
 		List<Retention> retentions = new ArrayList<>();
 		Pattern textRegex = Initialize.retentionTextRegex;
 		Pattern nameRegex = Initialize.retentionNameRegex;

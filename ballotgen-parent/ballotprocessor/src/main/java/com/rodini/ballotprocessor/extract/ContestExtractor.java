@@ -20,25 +20,6 @@ public class ContestExtractor {
 	// prevent instantiation.
 	private ContestExtractor() {}
 	
-	public static void extract(List<Ballot> ballots) {
-		List<Contest> contests;
-		for (Ballot ballot: ballots) {
-			// Page 1 text processing here.
-			contests = extractContests(ballot, ballot.getPage1Text());
-			for (Contest contest: contests) {
-				ballot.extendVoteFors(contest);
-			}
-			// Page 2 text processing here.
-			contests = extractContests(ballot, ballot.getPage2Text());
-			// If there are page 2 contests, need to generate a page break here.
-			if (contests.size() > 0) {
-				ballot.extendVoteFors(new Contest(ballot, Initialize.CONTEST_PAGE_BREAK, null, null, null));		
-			}
-			for (Contest contest: contests) {
-				ballot.extendVoteFors(contest);
-			}
-		}
-	}
 	/**
 	 * extractContests loops thru the pageText applying ballot contest regexes to parse out contests.
 	 * The algorithm relies on VS formatting each contest on the page like this:
@@ -56,6 +37,7 @@ public class ContestExtractor {
 	 * @return List of Contest objects
 	 */
 	static List<Contest> extractContests(Ballot ballot, String pageText) {
+		logger.info(String.format("extract contests precinctNoName: %s", ballot.getPrecinctNoName()));
 		List<Contest> contests = new ArrayList<>();
 		int start = 0;
 		int end = 0;

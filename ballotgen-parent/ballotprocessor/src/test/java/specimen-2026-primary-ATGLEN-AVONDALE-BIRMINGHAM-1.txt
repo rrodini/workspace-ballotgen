@@ -88,7 +88,6 @@ Write-in
 Write-in
 Write-in
 Write-in
-Typ:01 Seq:0001 Spl:01
 Democratic County
 Committee Member
 005 Atglen
@@ -181,7 +180,6 @@ Write-in
 Write-in
 Write-in
 Write-in
-Typ:01 Seq:0002 Spl:01
 Democratic County
 Committee Member
 010 Avondale
@@ -274,7 +272,6 @@ Write-in
 Write-in
 Write-in
 Write-in
-Typ:01 Seq:0003 Spl:01
 Democratic County
 Committee Member
 014 Birmingham 1

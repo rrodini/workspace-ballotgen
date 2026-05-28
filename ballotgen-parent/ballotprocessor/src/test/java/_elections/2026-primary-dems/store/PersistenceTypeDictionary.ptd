@@ -552,3 +552,15 @@
 	java.lang.String com.rodini.ballotprocessor.model.Ballot#page2Text     ,
 	java.util.List   com.rodini.ballotprocessor.model.Ballot#voteFors      ,
 }
+0000000000001000086 com.rodini.ballotprocessor.model.Contest{
+	com.rodini.ballotprocessor.model.Ballot com.rodini.ballotprocessor.model.VoteFor#ballot      ,
+	java.lang.String                        com.rodini.ballotprocessor.model.VoteFor#title       ,
+	java.lang.String                        com.rodini.ballotprocessor.model.Contest#term        ,
+	java.lang.String                        com.rodini.ballotprocessor.model.Contest#instructions,
+	java.util.List                          com.rodini.ballotprocessor.model.Contest#candidates  ,
+}
+0000000000001000088 com.rodini.ballotprocessor.model.PrimaryCandidate{
+	java.lang.String             com.rodini.ballotprocessor.model.Candidate       #name     ,
+	com.rodini.ballotutils.Party com.rodini.ballotprocessor.model.Candidate       #party    ,
+	java.lang.String             com.rodini.ballotprocessor.model.PrimaryCandidate#residence,
+}

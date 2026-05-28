@@ -6,21 +6,11 @@
     <version>${revision}</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>ballotprocessor</artifactId>
-  <name>ballotprocessor</name>
-  <description>BallotProcessor processes the specimen text into the BallotGen model objects.</description>
+  <artifactId>ballotgen</artifactId>
+  <name>BallotGen</name>
+  <description>Generates the precinct level DOCX files which are the sample ballots for distributionl.</description>
 	<build>
 		<plugins>
-			<plugin>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>properties</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -34,7 +24,7 @@
 							<archive>
 								<manifest>
 									<mainClass>
-										com.rodini.ballotprocessor.BallotProcessor
+										com.rodini.ballotgen.BallotGen
 									</mainClass>
 								</manifest>
 							</archive>
@@ -57,6 +47,17 @@
 		</plugins>
 	</build>
 	<dependencies>
+		<!-- DOCX4J -->
+		<dependency>
+			<groupId>org.docx4j</groupId>
+			<artifactId>docx4j-core</artifactId>
+			<version>11.5.1</version> <!-- 11.4.9 -->
+		</dependency>
+		<dependency>
+			<groupId>org.docx4j</groupId>
+			<artifactId>docx4j-JAXB-ReferenceImpl</artifactId>
+			<version>11.5.1</version> <!-- 11.4.9 -->
+		</dependency>	
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-slf4j-impl</artifactId>
@@ -74,20 +75,29 @@
 			<artifactId>junit-jupiter-engine</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.rodini</groupId>
-			<artifactId>ballotutils</artifactId>
-		</dependency>
 		<!-- Annotation so that System.exit() can be called -->
 		<dependency>
    		  <groupId>com.ginsberg</groupId>
     	  <artifactId>junit5-system-exit</artifactId>
      	  <scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.eclipse.store</groupId>
 			<artifactId>storage-embedded</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.rodini</groupId>
+			<artifactId>zoneprocessor</artifactId>
+    	    <version>${revision}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.rodini</groupId>
+			<artifactId>ballotprocessor</artifactId>
+    	    <version>${revision}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.rodini</groupId>
+			<artifactId>ballotutils</artifactId>
 		</dependency>
 	</dependencies>
 </project>

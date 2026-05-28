@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.store.storage.embedded.types.EmbeddedStorage;
 import org.eclipse.store.storage.embedded.types.EmbeddedStorageManager;
 
-import com.rodini.ballotprocessor.DataRoot;
+import com.rodini.zoneprocessor.DataRoot;
 import com.rodini.ballotutils.Utils;
 
 /**
@@ -103,10 +103,13 @@ public class ZoneProcessor {
 	}
 	// Write zone/precinct data to EclipseStore.
 	public static void terminate() {
+		logger.info("ZoneProcessor.terminate() called.");
+		// Wipe out previous contents of store to avoid legacy object issues.
+		Utils.deleteDir(storeDirPath);
 		storageManager = EmbeddedStorage.start(dataRoot, Paths.get(storeDirPath));
 		storageManager.storeRoot();
 		storageManager.shutdown();
-		// Give a short report
+		// Give a short report.
 		dataRoot.logRootContent();
 	}
 	

@@ -32,17 +32,6 @@ public class ReferendumExtractor {
 	private ReferendumExtractor() {
 	}
 	
-	public static void extract(List<Ballot> ballots) {
-		List<Referendum> referendums;
-		for (Ballot ballot: ballots) {
-			// To date, referendum questions have only appeared on Page 2.
-			// So, only look for them on page2Text.
-			referendums = extractReferendums(ballot, ballot.getPage2Text());
-			for (Referendum referendum: referendums) {
-				ballot.extendVoteFors(referendum);
-			}
-		}
-	}
 	/**
 	 * extractReferendumss loops thru the pageText applying ballot referendum regex to parse a referendum.
 	 * The algorithm relies on VS formatting each referendum on the page like this:
@@ -64,7 +53,7 @@ public class ReferendumExtractor {
 	 * @return List of Referendum objects.
 	 */
 	public static List<Referendum> extractReferendums(Ballot ballot, String pageText) {
-		logger.debug(String.format("empty page - can't extract referendums precinctNoName: %s", ballot.getPrecinctNoName()));
+		logger.info(String.format("extract referendums precinctNoName: %s", ballot.getPrecinctNoName()));
 		List<Referendum> referendumList = new ArrayList<>();
 		Pattern regex = Initialize.referendumTextRegex;
 		Matcher m = regex.matcher(pageText);

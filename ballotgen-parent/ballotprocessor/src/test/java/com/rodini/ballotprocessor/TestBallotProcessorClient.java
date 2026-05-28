@@ -37,8 +37,10 @@ class TestBallotProcessorClient {
 		DataRoot ballotRoot = BallotProcessor.getDataRoot();
 		Election election = ballotRoot.getElection();
 		if (election != null) {
-			System.out.println(String.format("Election title: %s", election.getTitle()));
-			System.out.println(String.format("Ballots  #: %d", election.getBallots().size()));
+//			System.out.println(String.format("Election title: %s", election.getTitle()));
+//			System.out.println(String.format("Ballots  #: %d", election.getBallots().size()));
+			BallotProcessor.storeDirPath = "src/test/java/_elections/2026-primary-dems/store/";
+			GenerateBallotSummary.generate(election);
 		} else {
 			System.out.println("Election object is null.");
 		}

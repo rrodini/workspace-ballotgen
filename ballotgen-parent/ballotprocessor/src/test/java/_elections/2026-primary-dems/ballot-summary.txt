@@ -1,0 +1,15 @@
+Summary Report: GENERAL PRIMARY ELECTION DEMOCRATIC BALLOT
+COUNTY OF CHESTER, COMMONWEALTH OF PENNSYLVANIA
+May 19, 2026
+
+Election type: Primary
+Precinct count: 3
+Unique ballot count: 3
+Precincts with identical ballots:
+Ballot   0: 010_AVONDALE
+Ballot   1: 005_ATGLEN
+Ballot   2: 014_BIRMINGHAM_1
+Referendum Summary:
+Unique referendum questions: 0
+Retention Summary:
+Unique retention judge names: 0

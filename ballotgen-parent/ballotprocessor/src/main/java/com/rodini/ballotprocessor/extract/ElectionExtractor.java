@@ -17,6 +17,7 @@ public class ElectionExtractor {
 	static final Logger logger = LogManager.getLogger(ElectionExtractor.class);
 	
 	public static Election extract(String specimenText) {
+		logger.info(String.format("election extraction:"));
 		// apply electionTextRegex to BallotProcessor.specimenText
 		String title = extractTitle(specimenText);
 		// extract the date from the title
