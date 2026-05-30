@@ -9,9 +9,10 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-class TestZoneStore {
+class TestZoneProcessorStandalone {
 	private static MockedAppender mockedAppender;
 	private static Logger logger;
 //	private static DataRoot root;
@@ -45,12 +46,11 @@ class TestZoneStore {
 	@AfterEach
 	void tearDown() throws Exception {
 	}
-
+	@Disabled
 	@Test
-	// INCOMPLETE TEST!!!
 	void testMain() {
-		String [] args = {"./src/test/java/test-precinct-zone-2024.csv", "./src/test/java/test-precinct-zone-2024"};
-//		ZoneProcessor.main(args);
+		String [] args = {"./src/test/java/test-precinct-zone-2024.csv", "./src/test/java/_zones/store"};
+		ZoneProcessor.main(args);
 	}
 
 }

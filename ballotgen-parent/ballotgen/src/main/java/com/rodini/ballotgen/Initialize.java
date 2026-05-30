@@ -20,9 +20,9 @@ import com.rodini.ballotprocessor.model.Election;
 //import com.rodini.ballotgen.endorsement.Endorsement;
 //import com.rodini.ballotgen.endorsement.EndorsementFactory;
 //import com.rodini.ballotgen.endorsement.EndorsementProcessor;
-//import com.rodini.ballotgen.writein.Writein;
-//import com.rodini.ballotgen.writein.WriteinFactory;
-//import com.rodini.ballotgen.writein.WriteinProcessor;
+import com.rodini.ballotgen.writein.Writein;
+import com.rodini.ballotgen.writein.WriteinFactory;
+import com.rodini.ballotgen.writein.WriteinProcessor;
 import com.rodini.ballotutils.ElectionType;
 import com.rodini.ballotutils.Party;
 import com.rodini.ballotutils.Utils;
@@ -43,7 +43,7 @@ public class Initialize {
 	// Global variables
 	
 	// From zoneprocessor store:
-	public static Map<String, Zone> precinctToZoneMap;	
+	private static Map<String, Zone> precinctToZoneMap;	
 	// From ballotprocessor store:
 	public static Election election;
 	public static ElectionType elecType;	// PRIMARY or GENERAL
@@ -51,8 +51,8 @@ public class Initialize {
 	public static List<Ballot> ballots; 	// List of Ballot objects
 //  public static EndorsementProcessor endorsementProcessor;
 //  static Map<String, List<Endorsement>> candidateEndorsements;
-//  public static WriteinProcessor writeinProcessor;
-//  static Map<String,List<Writein>> precinctWriteins;
+    public static WriteinProcessor writeinProcessor;
+    static Map<String,List<Writein>> precinctWriteins;
 	
 	public static String msWordPrecinctTemplateFile = "";	// MS Word precinct template file
 	public static String msWordUniqueTemplateFile = "";	    // MS Word unique template file
@@ -210,9 +210,9 @@ public class Initialize {
 			writeinsCSVText = Utils.readTextFile(writeinsFile);
 		}
 		// Must set this map BEFORE processing CSV file.
-//		WriteinFactory.setPrecinctToZones(precinctToZoneMap);
-//		WriteinFactory.processCSVText(writeinsCSVText);
-//		precinctWriteins = WriteinFactory.getPrecinctWriteins();
+		WriteinFactory.setPrecinctToZones(precinctToZoneMap);
+		WriteinFactory.processCSVText(writeinsCSVText);
+		precinctWriteins = WriteinFactory.getPrecinctWriteins();
 	}
 	/**
 	 * validateColumnBreakContestName reads/displays the COlUMN_BREAK_CONTEST_NAME property value.
@@ -301,7 +301,7 @@ public class Initialize {
 //		endorsementProcessor  = new EndorsementProcessor(elecType, endorsedParty,
 //				candidateEndorsements, precinctToZoneMap);
 //		// create the write-in processor
-//		writeinProcessor = new WriteinProcessor(precinctWriteins);
+		writeinProcessor = new WriteinProcessor(precinctWriteins);
 		validateColumnBreakContestName(ballotgenProps);
 		validatePageBreak(ballotgenProps);
 		validateBallotSummary(ballotgenProps);
